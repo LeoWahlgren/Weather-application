@@ -6,6 +6,7 @@
 <body>
 
 <?php
+$key = "";
 $todays_date = date('Y-m-d');
 $weeksdate = date('Y-m-d', strtotime($todays_date." + 7 day"));
 $name = $nameErr = "";
@@ -23,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       if(!preg_match("/^[a-zA-Z' åäöÅÄÖ]*$/", $name)){
         $nameErr = "Not valid name"; 
       }else{$nameErr="";
-        $urlsearch = "https://www.meteosource.com/api/v1/free/find_places_prefix?text=".urlencode($name)."&language=en&key=l9txvsz3c4wfq3jo3s8wodiebh5oa3v3xzi59pef";
+        $urlsearch = "https://www.meteosource.com/api/v1/free/find_places_prefix?text=".urlencode($name)."&language=en&key=".$key;
         $datasearch = curlresponse($urlsearch);
         if (count($datasearch) == 0){
           $nameErr = "Not valid name";}
@@ -39,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (isset($_GET['lat']) and isset($_GET['long'])){
   $currlatitude = strval($_GET['lat']);
   $currlongitude = strval($_GET['long']);
-  $urlsearch = "https://www.meteosource.com/api/v1/free/nearest_place?lat=".$currlatitude."&lon=".$currlongitude."&key=l9txvsz3c4wfq3jo3s8wodiebh5oa3v3xzi59pef";
+  $urlsearch = "https://www.meteosource.com/api/v1/free/nearest_place?lat=".$currlatitude."&lon=".$currlongitude."&key=".$key;
   $datasearch = curlresponse($urlsearch);
   $idcity = $datasearch["place_id"];
   $weather_location = $datasearch["name"];
@@ -47,7 +48,7 @@ if (isset($_GET['lat']) and isset($_GET['long'])){
 }
 
 function load_weather_forecast($id){
-  $urlweather = "https://www.meteosource.com/api/v1/free/point?place_id=".$id."&sections=daily&timezone=auto&language=en&units=metric&key=l9txvsz3c4wfq3jo3s8wodiebh5oa3v3xzi59pef";
+  $urlweather = "https://www.meteosource.com/api/v1/free/point?place_id=".$id."&sections=daily&timezone=auto&language=en&units=metric&key=".$key;
   $data = curlresponse($urlweather);
   //var_dump($data["daily"]["data"][0]);
   $days = array();
