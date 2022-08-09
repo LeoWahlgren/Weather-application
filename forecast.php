@@ -6,10 +6,14 @@
 <body>
 
 <?php
+$todays_date = date('Y-m-d');
+$weeksdate = date('Y-m-d', strtotime($todays_date." + 7 day"));
 $name = $nameErr = "";
 $weather_location = $weather_type = $temperature_mean = $local_time = $weather_date = $percipitation = "";
 $image_num = 1;
-$days_summary = "";
+$days_summary =  load_weather_forecast("Stockholm");
+$weather_location = "Stockholm";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($_POST["name"])){
       $nameErr = "Name is required";
@@ -27,10 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $idcity = $datasearch[0]["place_id"];
           $weather_location = $datasearch[0]["name"];
           $days_summary = load_weather_forecast($idcity);
-          //$weather_date = $days_summary[1]->get_date();
-          //$weather_date = 
-          $local_time = date('H:i');
-          //list($weather_type, $image_num, $temperature_mean, $percipitation)= $days_summary[1]->get_quickinfo();
         } 
       }        
 }   }
@@ -44,8 +44,6 @@ if (isset($_GET['lat']) and isset($_GET['long'])){
   $idcity = $datasearch["place_id"];
   $weather_location = $datasearch["name"];
   $days_summary = load_weather_forecast($idcity);
-  $local_time = date('H:i');
-
 }
 
 function load_weather_forecast($id){
@@ -53,6 +51,7 @@ function load_weather_forecast($id){
   $data = curlresponse($urlweather);
   //var_dump($data["daily"]["data"][0]);
   $days = array();
+  date_default_timezone_set($data["timezone"]);
   for ($i=0;$i < 6; $i++){
     $day_date = strval($data["daily"]["data"][$i]["day"]);
     $day_weather = strval(explode(".", strval($data["daily"]["data"][$i]["summary"]))[0]);
@@ -63,6 +62,10 @@ function load_weather_forecast($id){
     $day_windspeed = strval($data["daily"]["data"][$i]["all_day"]["wind"]["speed"]);
     $day_winddirection = strval($data["daily"]["data"][$i]["all_day"]["wind"]["dir"]);
     $day_rain_amount = strval($data["daily"]["data"][$i]["all_day"]["precipitation"]["total"]);
+
+    //$classname = "forecast".$day_date;
+    //$$classname = new daily_forecast($day_date, $day_weather, $day_icon, $day_meantemperature, $day_maxtemperature, $day_mintemperature, $day_windspeed, $day_winddirection, $day_rain_amount); 
+    //var_dump($$classname);
     $days[$day_date] = array($day_date, $day_weather, $day_icon, $day_meantemperature, $day_maxtemperature, $day_mintemperature, $day_windspeed, $day_winddirection, $day_rain_amount);
 
   }
@@ -85,7 +88,7 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
   }
-
+$local_time = date('H:i');
 ?>
 
 <form method="post" action=" <?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" >
@@ -109,9 +112,8 @@ function test_input($data) {
 <label for="day">Choose day:</label>
 <form>
 <input type="date" id="date"  name="date"
-       value= "<?php echo date('Y-m-d'); ?>"
-       min="2022-08-08" max="2022-08-14">
-</button> 
+       value= "<?php echo $todays_date; ?>"
+       min="<?php echo $todays_date; ?>" max="<?php echo $weeksdate; ?>">
 </form>
 </div>
 
@@ -124,7 +126,7 @@ function test_input($data) {
 <p id ="temperature_maxmin"> <br> </p>
 <p id ="Wind_speed_and_direction"> <br> </p>
 <p id ="percipitation"> <br> </p>
-<p> Local time: <?=$local_time?> <br> </p>
+<p id ="local_time_today"> <br> </p>
 <p id="weather_image"><br></p>
 <p">Powered by MeteoSource API</p>
 
@@ -148,7 +150,6 @@ forecast_call.addEventListener("mouseover", display_forecast);
 forecast_call.addEventListener("hashchange", display_forecast);
 
 function getLocation() {
-  x.innerHTML = "Yes fired";
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(getPosition, showError);
   } else {
@@ -186,16 +187,17 @@ function showError(error) {
 function display_forecast() {
   try {
     var days_forecast = <?php echo json_encode($days_summary); ?>; 
-  console.log(days_forecast);
-  var active_date = document.getElementById("date").value;
-  console.log(active_date);
-  document.getElementById("weather_type").innerHTML = days_forecast[active_date][1];
-  document.getElementById("temperature_mean").innerHTML = "Overall temperature: " + days_forecast[active_date][3] + " °C";
-  document.getElementById("temperature_maxmin").innerHTML = "Max/min temperature: " + days_forecast[active_date][4] + "/"+ days_forecast[active_date][5] + " °C"; 
-  document.getElementById("Wind_speed_and_direction").innerHTML = "Wind speed and direction: " + days_forecast[active_date][6] + " " + days_forecast[active_date][7];
-  document.getElementById("percipitation").innerHTML = days_forecast[active_date][8] + " mm";
-  document.getElementById("display_date").innerHTML = active_date;
-  var image_path = "./weather/" + days_forecast[active_date][2] + ".png";
+    var active_date = document.getElementById("date").value;
+    document.getElementById("weather_type").innerHTML = days_forecast[active_date][1];
+    document.getElementById("temperature_mean").innerHTML = "Overall temperature: " + days_forecast[active_date][3] + " °C";
+    document.getElementById("temperature_maxmin").innerHTML = "Max/min temperature: " + days_forecast[active_date][4] + "/"+ days_forecast[active_date][5] + " °C"; 
+    document.getElementById("Wind_speed_and_direction").innerHTML = "Wind speed and direction: " + days_forecast[active_date][6] + " " + days_forecast[active_date][7];
+    document.getElementById("percipitation").innerHTML = days_forecast[active_date][8] + " mm";
+    document.getElementById("display_date").innerHTML = active_date;
+    var image_path = "./weather/" + days_forecast[active_date][2] + ".png";
+    //if (isToday(active_date)){
+    //  document.getElementById("local_time_today").innerHTML = "Local time(now): " + "<?php echo $local_time; ?>";
+    //  }
   }
   catch{
     document.getElementById("weather_type").innerHTML = "No data available";
@@ -205,6 +207,15 @@ function display_forecast() {
     image.setAttribute('src', image_path);
   } 
 }
+/*
+function isToday(someDate){
+  const today = new Date()
+  return someDate.getDate() == today.getDate() &&
+    someDate.getMonth() == today.getMonth() &&
+    someDate.getFullYear() == today.getFullYear()
+}
+
+*/
 
 
 </script>
