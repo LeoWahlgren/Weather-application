@@ -13,7 +13,7 @@ Or press to get forecast for the nearest location:
 
 Choose a day within a week from current date, to show forecast:
 
-![image](https://user-images.githubusercontent.com/96311805/183861206-2c8fffd1-994d-4f25-8e06-24c8c0877709.png)
+![image](https://user-images.githubusercontent.com/96311805/183863021-8bd2040f-9991-40c6-b494-181a948d5901.png)
 
 
 
