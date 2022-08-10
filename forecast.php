@@ -7,14 +7,14 @@
 <body>
 
 <?php
-$key =""; // Fill in your own api key, create a free account at MeteoSource
+$key ="l9txvsz3c4wfq3jo3s8wodiebh5oa3v3xzi59pef"; // Fill in your own api key, create a free account at MeteoSource
 $todays_date = date('Y-m-d');
 $tomorrows_date = date('Y-m-d', strtotime($todays_date." + 1 day"));
 $weeksdate = date('Y-m-d', strtotime($todays_date." + 6 day"));
 $name = $nameErr = "";
 $weather_location = $weather_type = $temperature_mean = $local_time = $weather_date = $percipitation = "";
 $image_num = 1;
-// Default loaded weather info, make sure it's the right location id in the api for the city.
+// Default loaded weather info, make sure it's the right location-id in the api for the city.
 $default_location = "Stockholm";
 list($current_weather,$week_summary) =  load_location_forecast($default_location);
 $weather_location = $default_location;
@@ -149,6 +149,7 @@ $local_time = date('H:i');
 <p id ="local_time_today"><br></p>
 
 <!-- <p id ="display_date"><br> </p> -->
+<p id= "chosen_date"></p>
 <p id ="day_weather_type"></p>
 <p id ="temperature_mean"></p>
 <p id ="temperature_maxmin"></p>
@@ -210,6 +211,7 @@ function showError(error) {
   }
 }
 function current_weather(){
+  document.getElementById("chosen_date").innerHTML = "";
   document.getElementById("day_weather_type").innerHTML = "";
   document.getElementById("temperature_mean").innerHTML = "";
   document.getElementById("temperature_maxmin").innerHTML = "";
@@ -246,6 +248,7 @@ function week_forecast() {
   try {
     var days_forecast = <?php echo json_encode($week_summary); ?>; 
     var active_date = document.getElementById("date").value;
+    document.getElementById("chosen_date").innerHTML = active_date + "\n"; 
     document.getElementById("day_weather_type").innerHTML = days_forecast[active_date][1] + "\n";
     document.getElementById("temperature_mean").innerHTML = "Overall temperature: " + days_forecast[active_date][3] + " °C \n";
     document.getElementById("temperature_maxmin").innerHTML = "Max/min temperature: " + days_forecast[active_date][4] + "/"+ days_forecast[active_date][5] + " °C \n"; 
@@ -256,6 +259,7 @@ function week_forecast() {
   }
   catch{
     document.getElementById("day_weather_type").innerHTML = "No data available \n";
+    document.getElementById("chosen_date").innerHTML = "";
     document.getElementById("temperature_mean").innerHTML ="";
     document.getElementById("temperature_maxmin").innerHTML = "";
     document.getElementById("day_Wind_speed_and_direction").innerHTML = "";
@@ -267,13 +271,14 @@ function week_forecast() {
   } 
 }
 
+
+
 </script>
 
 
 
-
 <?php
-/* Use classes instead of array for day forecast? How to send PHP class to javascript?
+/*
 class daily_forecast {
     function __construct($date, $weather_summary, $icon, $temperature_mean, $temperature_max, $temperature_min, $wind_speed, $wind_direction, $rain_amount) {
         $this->date = $date;
@@ -296,6 +301,5 @@ class daily_forecast {
 }
 */
 ?>
--->
 </body>
 </html>
