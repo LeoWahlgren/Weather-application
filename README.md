@@ -1,11 +1,20 @@
 # Weather-application
 Web application for practicing calling and managing api's. Working both with PHP and Javascript. PHP for API-call and js for user interface. 
 
+Create a free acount at https://www.meteosource.com/ to get your API-key.
+
 Search for location:
+
 ![image](https://user-images.githubusercontent.com/96311805/183860065-c2eb44ae-e35c-4996-a7f3-efaef50e2434.png)
 
 Or press to get forecast for the nearest location:
-![image](https://user-images.githubusercontent.com/96311805/183860519-de09fa47-68ca-4b61-a3a1-5963bd07dfaa.png)
+
+![weather](https://user-images.githubusercontent.com/96311805/183860730-c34ef886-d183-4a67-8106-a95225194636.png)
+
+Choose a day within a week from current date, to show forecast:
+
+![image](https://user-images.githubusercontent.com/96311805/183861206-2c8fffd1-994d-4f25-8e06-24c8c0877709.png)
+
 
 
 At the moment just focused on the site to be functional. Will be updated with more css and html features. 
