@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!--
+<?php
+$todays_date = date('Y-m-d');
+$tomorrows_date = date('Y-m-d', strtotime($todays_date." + 1 day"));
+$weeksdate = date('Y-m-d', strtotime($todays_date." + 6 day"));
+require("forecastcall.php ");
+?>
+-->
+<div>
+<input id="location" type="text" placeholder="Search for location" name="name">
+<span class="error"id="locationerror">* </span>
+<input type="submit" name="submit" id="sumbitnameloc" value="Search location">
+</div>
+
+<ol>
+<li class="search_suggested_item">
+<a id = "Btngeoloc" href="javascript:void(0);">
+ <img src = "./icon-geolocation.png" x="0" y="0" width="16" height="16" viewBox="0 0 24 24" focusable="false" aria-hidden="true"></img>
+<span>Close by</span>
+</a>
+<!-- option for suggestions, will be added
+ </li>
+ <li class="search_suggested_item">
+ </li>
+-->
+</ol>
+
+<!
+<div>
+<label for="day">Choose day:</label>
+<form>
+<input type="date" id="date"  name="date"
+       value= ""
+       min="" max="">
+</form>
+</div>
+
+<button id="current_weather">Weather now</button>
+
+<p id="chosen_location"></p>
+<p id="coordinates"></p>
+<p id="location_selection" </p>
+<p id ="current_weather_type"></p>
+<p id ="current_temperature"></p>
+<p id ="current_Wind_speed_and_direction"></p>
+<p id ="local_time_today"><br></p>
+
+<!-- <p id ="display_date"><br> </p> -->
+<p id= "chosen_date"></p>
+<p id ="day_weather_type"></p>
+<p id ="temperature_mean"></p>
+<p id ="temperature_maxmin"></p>
+<p id ="day_Wind_speed_and_direction"></p>
+<p id ="percipitation"> <br> </p>
+<p id="weather_image"><br></p>
+<p">Powered by MeteoSource API</p>
+
+
+</body>
+<script type="text/javascript" src="functions2.js"></script>
+</html>
