@@ -1,5 +1,5 @@
 # Weather-application
-Web application for practicing calling and managing api's. Working both with PHP and Javascript. PHP for API-call and js for user interface. 
+Web application for practicing calling and managing api's. Using both PHP and Javascript. PHP for API-call and js for user interface. Now updated with AJAX call's to PHP.
 
 Create a free acount at https://www.meteosource.com/ to get your API-key.
 
@@ -17,7 +17,6 @@ Choose a day within a week from current date, to show forecast:
 
 
 
-At the moment just focused on the site to be functional. Will be updated with more css and html features. 
-As well with AJAX for improving functionality when sending variables between server-side and client side. This would make it possible to have external files with js-scripts instead of having all code in one file. At the moment I can only work in one file because i'm doing PHP variable echoing inside js tags.  
+At the moment just focused on the site to be functional. Will be updated with more css and html features.  
 
 In the process of extending it with hour for hour forecast, plus make forecast suggestions on previous and favorite locations. 
